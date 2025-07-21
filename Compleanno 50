@@ -8,7 +8,7 @@
     body {
       margin: 0;
       padding: 0;
-      background-image: url('sfondo japanese.png'); /* Inserisci il tuo sfondo */
+      background-image: url('sfondo.jpg'); /* Inserisci il tuo sfondo */
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
@@ -146,7 +146,7 @@ così mi avrai regalato la cosa più preziosa: un'emozione!
 
   <!-- AUDIO DI SOTTOFONDO -->
   <audio id="bg-music" autoplay loop>
-    <source src="musica.mp3" type="audio/mpeg">
+    <source src="Coldplay - A Sky Full Of Stars (Lyrics).mp3" type="audio/mpeg">
     Il tuo browser non supporta l'audio HTML5.
   </audio>
 
