@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <title>Alessandro & Sara - Viaggio di Nozze in Giappone</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-image: url('sfondo japanese.png'); /* Assicurati che il percorso sia corretto */
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      height: 100vh;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-family: 'Playfair Display', serif;
+      overflow: hidden; /* Mantiene l'overlay nascosto inizialmente */
+    }
+
+    .overlay {
+      background-color: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      padding: 60px;
+      border-radius: 25px;
+      max-width: 800px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+      color: white;
+      opacity: 0; /* Inizia completamente trasparente */
+      transform: translateY(20px); /* Inizia leggermente spostato verso il basso */
+      /* MODIFICA QUI: Aggiunto '3s' come delay prima di 'forwards' */
+      animation: fadeIn 7s ease 1.2s forwards;
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1; /* Diventa completamente opaco */
+        transform: translateY(0); /* Torna alla posizione originale */
+      }
+    }
+
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 20px;
+      color: #000;
+    }
+
+    p {
+      font-size: 1.5rem;
+      margin-top: 0;
+      color: #000;
+    }
+
+    .iban {
+      margin-top: 30px;
+      font-weight: bold;
+      font-size: 1.3rem;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      color: #000;
+      padding: 15px;
+      border-radius: 12px;
+      word-break: break-word;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      font-family: 'Playfair Display', serif;
+    }
+
+    .iban:hover {
+      background-color: rgba(255, 255, 255, 0.25);
+    }
+
+    .copied-msg {
+      display: none;
+      margin-top: 10px;
+      font-size: 0.5rem; /* Ridimensionato leggermente */
+      color: #000;
+      background-color: transparent;
+      background: rgba(255,255,255,0.25);
+      padding: 8px;
+      border-radius: 8px;
+    }
+
+    @media (max-width: 600px) {
+      .overlay {
+        padding: 30px;
+        max-width: 90%;
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
+
+      p {
+        font-size: 1.2rem;
+      }
+
+      .iban {
+        font-size: 1.1rem;
+        padding: 12px;
+      }
+    }
+
+    .music-button {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 99;
+        background-color: transparent;
+        border: 1px solid rgba(255,255,255,0.5);
+        padding: 10px 15px;
+        border-radius: 10px;
+        font-family: 'Playfair Display', serif;
+        font-size: 1rem;
+        cursor: pointer;
+        color: #fff;
+        backdrop-filter: none; /* Rimosso blur per performance/estetica */
+      }
+
+    .music-button:hover {
+      background-color: rgba(255,255,255,0.1);
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay">
+    <h1>恋の旅 "koi no tabi"<br>  Viaggio d'Amore ❤️</h1>
+    <p>
+      L'espressione indica un'esperienza legata all'amore e alle emozioni che ne derivano.<br>
+      Può riferirsi sia a un viaggio fisico che metaforico: è un percorso di scoperta e crescita personale attraverso il sentimento dell'amore.<br>
+      Se volete potete aiutarci a realizzare questo nostro sogno riempiendo le valigie...<br> di bei ricordi ed emozioni!<br>Arigatō! 🍣🎎
+    </p>
+    <div class="iban" id="iban-text" onclick="copyIBAN()">
+      IBAN: IT57I0306234210000002936209<br>
+      Intestatari: Sara Pioppi, Alessandro Nicolini
+    </div>
+    <div class="copied-msg" id="copied-msg">✅ IBAN copiato!</div>
+  </div>
+
+
+  <audio id="bg-music" autoplay loop>
+    <source src="brooklyn-duo-a-thousand-years-wedding-version_f7Oh6Sq1.mp3" type="audio/mpeg">
+    Il tuo browser non supporta l'elemento audio.
+  </audio>
+
+  <button class="music-button" onclick="toggleMusic()">🎵 Musica: On/Off</button>
+
+  <script>
+    function copyIBAN() {
+      // Estrae solo il testo IBAN e Intestatari
+      const ibanElement = document.getElementById('iban-text');
+      const ibanFullText = ibanElement.innerText; // Prende tutto il testo visibile
+
+      // Usa l'API Clipboard per copiare
+      navigator.clipboard.writeText(ibanFullText).then(() => {
+        const msg = document.getElementById('copied-msg');
+        msg.style.display = 'block';
+        setTimeout(() => { msg.style.display = 'none'; }, 2000); // Nasconde dopo 2 sec
+      }).catch(err => {
+        console.error('Errore nel copiare l\'IBAN: ', err);
+        // Potresti mostrare un messaggio di errore all'utente qui
+      });
+    }
+
+    const audio = document.getElementById("bg-music");
+    // Imposta un volume iniziale più basso
+    audio.volume = 0.2;
+
+    // Tenta di avviare l'audio solo dopo un'interazione dell'utente se l'autoplay fallisce
+    document.body.addEventListener('click', () => {
+        if (audio.paused) {
+            audio.play().catch(e => console.log("Autoplay bloccato, serve interazione utente."));
+        }
+    }, { once: true }); // Esegui solo una volta al primo click
+
+    function toggleMusic() {
+      if (audio.paused) {
+        audio.play();
+      } else {
+        audio.pause();
+      }
+    }
+
+     // Assicura che l'audio parta (se possibile) al caricamento
+     window.addEventListener('load', () => {
+        audio.play().catch(e => {
+             console.log("Autoplay della musica potrebbe essere bloccato dal browser.");
+             // Potresti mostrare un'icona 'play' sul bottone musica
+        });
+     });
+  </script>
+</body>
+</html>
